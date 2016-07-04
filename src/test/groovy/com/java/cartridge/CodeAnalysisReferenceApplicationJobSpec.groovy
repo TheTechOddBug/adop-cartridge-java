@@ -81,6 +81,32 @@ class CodeAnalysisReferenceApplicationJobSpec extends Specification {
             }
     }
 
+    def 'job parameters, "UTB" string parameter with default value "Reference_Application_Build" exists'() {
+        expect:
+            node.properties['hudson.model.ParametersDefinitionProperty']['parameterDefinitions'].size() == 1
+
+            with(node.properties['hudson.model.ParametersDefinitionProperty']['parameterDefinitions'][0]) {
+                children().size() == 2
+
+                with(children()[1]) {
+                    name() == 'hudson.model.StringParameterDefinition'
+                    children().size() == 3
+
+                    with (name) {
+                        text() == 'UTB'
+                    }
+
+                    with (description) {
+                        text() == 'Last build of previous job'
+                    }
+
+                    with (defaultValue) {
+                        text() == ''
+                    }
+                }
+            }
+    }
+
     def 'workspace_name, project_name and project_name_key env variables injected'() {
         expect:
             node.properties.EnvInjectJobProperty.size() == 1
@@ -177,7 +203,7 @@ class CodeAnalysisReferenceApplicationJobSpec extends Specification {
             }
 
         where:
-            buildNumberRef = '${B}'
+            buildNumberRef = '${UTB}'
     }
 
     @Unroll

@@ -278,6 +278,7 @@ class UnitTestsReferenceApplicationJobSpec extends Specification {
         where:
             key            | value
             'B'            | '${B}'
+            'UTB'          | '${BUILD_NUMBER}'
             'PARENT_BUILD' | '${PARENT_BUILD}'
     }
 }
