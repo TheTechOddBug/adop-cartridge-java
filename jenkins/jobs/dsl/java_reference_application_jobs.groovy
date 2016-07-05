@@ -119,6 +119,7 @@ unitTestJob.with {
                 condition("UNSTABLE_OR_BETTER")
                 parameters {
                     predefinedProp("B", '${B}')
+                    predefinedProp("UTB", '${BUILD_NUMBER}')
                     predefinedProp("PARENT_BUILD", '${PARENT_BUILD}')
                 }
             }
@@ -130,6 +131,7 @@ codeAnalysisJob.with {
     description("This job runs code quality analysis for Java reference application using SonarQube.")
     parameters {
         stringParam("B", '', "Parent build number")
+        stringParam("UTB", '', "Unit Test build number")
         stringParam("PARENT_BUILD", "Reference_Application_Build", "Parent build name")
     }
     environmentVariables {
@@ -147,7 +149,7 @@ codeAnalysisJob.with {
     steps {
         copyArtifacts('Reference_Application_Unit_Tests') {
             buildSelector {
-                buildNumber('${B}')
+                buildNumber('${UTB}')
             }
         }
     }
